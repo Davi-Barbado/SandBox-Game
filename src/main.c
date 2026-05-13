@@ -1,5 +1,8 @@
 #include <raylib.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#define RAYLIB_NUKLEAR_IMPLEMENTATION
+#include <nuklear/raylib-nuklear.h>
 #define GW 700
 #define GH 500
 
@@ -239,6 +242,7 @@ void change_selection(){
     DrawRectangleLines(0, 0, 20, 20, BROWN);
 }
 int main(){
+    struct nk_context *ctx = InitNuklear(10);
     InitWindow(700, 500, "SandBox");
     SetTargetFPS(120);
     init_grade();
@@ -246,6 +250,14 @@ int main(){
     screen = LoadTextureFromImage(Image);
     UnloadImage(Image);
     while (!(WindowShouldClose())) {
+        UpdateNuklear(ctx);
+
+        if (nk_begin(ctx, "Tools", nk_rect(500, 0, 200, 200),NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_MINIMIZABLE)) {
+            nk_layout_row_static(ctx, 10, 150, 1);
+            nk_text(ctx, "Pencil Size", 12, NK_TEXT_ALIGN_LEFT);
+            nk_slider_float(ctx, 10.0f, &pencil_size, 100.0f, 1.0f);
+        }
+        nk_end(ctx);
         Update_Pencil();
         BeginDrawing();
             Pencil.height = pencil_size;
@@ -254,10 +266,14 @@ int main(){
             process_grade();
             show_grade();
             Draw_Pencil();
-            gen_pixel();
+            if (!nk_item_is_any_active(ctx) && !nk_window_is_any_hovered(ctx)){
+                gen_pixel();
+            }
             process_pixels();
             change_selection();
+            DrawNuklear(ctx);
         EndDrawing();
     }
+    UnloadNuklear(ctx);
     CloseWindow();
 }
