@@ -10,7 +10,7 @@ https://github.com/user-attachments/assets/68ea73b3-5cb7-4660-955b-bc6e2d01ce53
 ### RayLib-Nuklear
 ### Raylib
 
-´´´
+```console
 chmod +x run.sh
 ./run.sh
-´´´
+```
