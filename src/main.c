@@ -14,8 +14,8 @@ Color colors[GW * GH];
 
 int selected = 0;
 
-const float pencil_size = 50;
-Rectangle Pencil = {0, 0, pencil_size, pencil_size};
+float pencil_size = 50;
+Rectangle Pencil = {0, 0, 0, 0};
 
 void init_grade(){
     for (int x = 0; x < GW - 1; x++){
@@ -248,6 +248,8 @@ int main(){
     while (!(WindowShouldClose())) {
         Update_Pencil();
         BeginDrawing();
+            Pencil.height = pencil_size;
+            Pencil.width = pencil_size;
             ClearBackground(GRAY);
             process_grade();
             show_grade();
