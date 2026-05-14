@@ -1,5 +1,7 @@
+#include <ctype.h>
 #include <raylib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #define RAYLIB_NUKLEAR_IMPLEMENTATION
 #include <nuklear/raylib-nuklear.h>
@@ -256,6 +258,9 @@ int main(){
             nk_layout_row_static(ctx, 10, 150, 1);
             nk_text(ctx, "Pencil Size", 12, NK_TEXT_ALIGN_LEFT);
             nk_slider_float(ctx, 10.0f, &pencil_size, 100.0f, 1.0f);
+            char buffer[50] = {0};
+            sprintf(buffer, "%.0f", pencil_size);
+            nk_text(ctx, buffer, 10, NK_TEXT_ALIGN_LEFT);
         }
         nk_end(ctx);
         Update_Pencil();
